@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>BAB43</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>BAB1</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Latihan Kosakata</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  .card {
+    background: white;
+    padding: 30px;
+    width: 400px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  input {
+    width: 90%;
+    padding: 8px;
+    margin-top: 15px;
+  }
+  button {
+    margin-top: 20px;
+    padding: 8px 15px;
+    cursor: pointer;
+  }
+  .result {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .wrong { color: red; }
+  .correct { color: green; }
+  ol { text-align:left; max-height:400px; overflow:auto; }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h2 id="question"></h2>
+  <input type="text" id="answerInput" placeholder="Tulis jawaban di sini">
+  <br>
+  <button id="nextBtn">Selanjutnya</button>
+</div>
+
+<script>
+let questions = [
+{ soal: "건축 시공", jawaban: "konstruksi arsitektur" },
+{ soal: "견인하다", jawaban: "menyeret" },
+{ soal: "체결하다", jawaban: "mengencangkan / menyambung" },
+{ soal: "롤러", jawaban: "roller" },
+{ soal: "중장비", jawaban: "alat berat" },
+{ soal: "압축하다", jawaban: "mengompres / memadatkan" },
+{ soal: "배근하다", jawaban: "mengatur besi beton" },
+{ soal: "다지다", jawaban: "memadatkan" },
+{ soal: "결속선", jawaban: "kawat pengikat" },
+{ soal: "콘크리트 펌프 트럭", jawaban: "truk pompa beton" },
+{ soal: "결속하다", jawaban: "mengikat" },
+{ soal: "구조", jawaban: "struktur" },
+{ soal: "콘크리트 믹서 트럭", jawaban: "truk pengaduk beton" },
+{ soal: "아스팔트 살포기", jawaban: "penyemprot aspal" },
+{ soal: "교차점", jawaban: "persimpangan" },
+{ soal: "추측하다", jawaban: "menebak / mengira" },
+{ soal: "결속 핸들", jawaban: "pengait kawat" },
+{ soal: "기중기", jawaban: "kren" },
+{ soal: "철근", jawaban: "besi beton" },
+{ soal: "지게차", jawaban: "forklift" },
+{ soal: "완료하다", jawaban: "menyelesaikan" },
+{ soal: "설치하다", jawaban: "memasang" },
+{ soal: "손전등", jawaban: "senter" },
+{ soal: "거푸집", jawaban: "bekisting" },
+{ soal: "짐작하다", jawaban: "menebak" },
+{ soal: "비계", jawaban: "perancah" },
+{ soal: "배경", jawaban: "latar belakang" },
+{ soal: "하중을 받다", jawaban: "menerima beban" },
+{ soal: "재고", jawaban: "persediaan" },
+{ soal: "거푸집 설치하다", jawaban: "memasang bekisting" },
+{ soal: "플랫 타이", jawaban: "flat tie" },
+{ soal: "공사장", jawaban: "tempat konstruksi" },
+{ soal: "웨지핀", jawaban: "penjepit wedge" },
+{ soal: "건물을 짓다", jawaban: "membangun gedung" },
+{ soal: "기둥", jawaban: "pilar" },
+{ soal: "시멘트", jawaban: "semen" },
+{ soal: "마주", jawaban: "tatap muka" },
+{ soal: "자갈", jawaban: "batu kerikil" },
+{ soal: "사라지다", jawaban: "menghilang" },
+{ soal: "타설하다", jawaban: "mengecor" },
+{ soal: "교량", jawaban: "jembatan" },
+{ soal: "모래", jawaban: "pasir" },
+{ soal: "대규모", jawaban: "skala besar" },
+{ soal: "굴착기", jawaban: "excavator" },
+{ soal: "토목 장비", jawaban: "peralatan teknik sipil" },
+{ soal: "불도저", jawaban: "buldozer" },
+{ soal: "스크레이퍼", jawaban: "scraper / pengikis" },
+{ soal: "트랙터", jawaban: "traktor" },
+{ soal: "로더", jawaban: "loader / pemuat" },
+{ soal: "덤프트럭", jawaban: "dump truck" },
+{ soal: "표면", jawaban: "permukaan" },
+{ soal: "그레이더", jawaban: "grader" },
+{ soal: "양", jawaban: "jumlah / domba" }
+];
+
+// Acak soal
+questions = questions.sort(() => Math.random() - 0.5);
+
+let index = 0;
+let score = 0;
+let userAnswers = [];
+
+const questionEl = document.getElementById("question");
+const answerInput = document.getElementById("answerInput");
+const nextBtn = document.getElementById("nextBtn");
+const card = document.querySelector(".card");
+
+function showQuestion() {
+  questionEl.textContent = "Soal " + (index + 1) + ": " + questions[index].soal;
+  answerInput.value = "";
+  answerInput.focus();
+}
+
+nextBtn.addEventListener("click", () => {
+  const userAnswer = answerInput.value.trim().toLowerCase();
+  userAnswers[index] = userAnswer; // simpan jawaban sesuai index
+
+  if (userAnswer === questions[index].jawaban) {
+    score++;
+  }
+
+  index++;
+  if (index < questions.length) {
+    showQuestion();
+  } else {
+    showResult();
+  }
+});
+
+function showResult() {
+  let answerList = "";
+  questions.forEach((q, i) => {
+    if (userAnswers[i] === q.jawaban) {
+      answerList += `<li>${q.soal} = <span class="correct">${q.jawaban}</span></li>`;
+    } else {
+      answerList += `<li>${q.soal} = <span class="correct">${q.jawaban}</span><br>
+                     Jawaban kamu: <span class="wrong">${userAnswers[i] || "(kosong)"}</span></li>`;
+    }
+  });
+
+  card.innerHTML = `
+    <h2>Hasil</h2>
+    <p class="result">Nilai: ${score} / ${questions.length}</p>
+    <hr>
+    <p>Kunci Jawaban:</p>
+    <ol>${answerList}</ol>
+  `;
+}
+
+showQuestion();
+</script>
+
+</body>
+</html>
+    
+  </body>
+  
+</html>
